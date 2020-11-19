@@ -2,25 +2,54 @@
 #FONTS
 \*------------------------------------*/
 
+
 /*------------------------------------*\
 #Variables
 \*------------------------------------*/
 
 :root {
     /* colors */
-    --color-alpha-light: MEDIUMSLATEBLUE;
-    --color-alpha: SLATEBLUE;
+    --color-white: #ffffff;
+    --color-lightred: #FF6565;
+    --color-blue: #3B86FF;
+    --color-purple: #A3A0FB;
+    --color-purple-light: #A3A0FB80;
+    --color-darkblue: #43425D;
+    
+    --color-alpha-light:var(--color-purple-light);
+    --color-alpha: var(--color-purple);
 
-    --color-neutral-light: LIGHTSLATEGRAY;
-    --color-neutral: SLATEGRAY;
-    --color-neutral-dark: DARKSLATEGRAY;
+    
+
+    --color-neutral-xxx-light: #F0F0F7;
+    --color-neutral-xx-light: #EBEBF2;
+    --color-neutral-x-light: #D7DAE2;
+    --color-neutral-light: #BCBCCB;
+    --color-neutral-dark: #A5A4BF;
+    --color-neutral-x-dark: #808495;
+    --color-neutral-xx-dark: #4D4F5C;
+    --color-neutral-xxx-dark: #3B3B53;
+
+    
 
     /* Shadows */
+    --global-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+
+    /* Baselines */
+    --global-baseline: 5px;
+    --global-whitespace-xxs: var(--global-baseline); /* 5px */
+    --global-whitespace-xs: calc(var(--global-baseline) * 2); /* 10px */
+    --global-whitespace-sm: calc(var(--global-baseline) * 3); /* 15px */
+    --global-whitespace-md: calc(var(--global-baseline) * 4); /* 20px */
+    --global-whitespace-lg: calc(var(--global-baseline) * 5); /* 25px */
+    --global-whitespace-xl: calc(var(--global-baseline) * 6); /* 30px */
+    
 
     /* border radius */
 
     /* transitions */
-    --transition-alpha: .1s;
+    --global-transition-alpha: .2s;
+    --global-transition-beta: 1s;
 }
 
 /*------------------------------------*\
@@ -34,14 +63,14 @@
 */
 
 html {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
-    font-family: Helvetica, arial, sans-serif;
-    color: var(--color-neutral-dark);
+    font-family: 'Source Sans Pro', Helvetica, arial, sans-serif;
+    color: var(--color-white);
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: white;
+    background-color: var(--color-neutral-xxx-light);
 }
 
 *,
@@ -59,13 +88,13 @@ html {
 
 ::-moz-selection {
     background: var(--color-alpha);
-    color: white;
+    color: var(--color-white);
     text-shadow: none;
 }
 
 ::selection {
     background: var(--color-alpha);
-    color: white;
+    color: var(--color-white);
     text-shadow: none;
 }
 
@@ -98,20 +127,20 @@ h3 {
 
 h1 {
     font-size: 36px;
-    line-height: 48px;
-    margin: 0 0 24px;
+    line-height: calc(var(--global-baseline) * 10);
+    margin: 0 0 var(--global-whitespace-md);
 }
 
 h2 {
-    font-size: 32px;
-    line-height: 40px;
-    margin: 0 0 24px;
+    font-size: 28px;
+    line-height: calc(var(--global-baseline) * 8);
+    margin: 0 0 var(--global-whitespace-lg);
 }
 
 h3 {
     font-size: 26px;
-    line-height: 32px;
-    margin: 0 0 24px;
+    line-height: calc(var(--global-baseline) * 6);
+    margin: 0 0 var(--global-whitespace-md);
 }
 
 h4,
@@ -119,8 +148,8 @@ h5,
 h6 {
     font-size: 16px;
     font-weight: 600;
-    line-height: 24px;
-    margin: 0 0 24px;
+    line-height: calc(var(--global-baseline) * 5);
+    margin: 0 0 var(--global-whitespace-md);
 }
 
 p,
@@ -130,7 +159,7 @@ dl,
 table,
 address,
 figure {
-    margin: 0 0 24px;
+    margin: 0 0 var(--global-whitespace-md);
 }
 
 ul,
@@ -289,11 +318,167 @@ input::placeholder {
 #COMPONENTS
 \*------------------------------------*/
 
-/*
-    Component: Logo
-    ---
-    Website main logo
+
+
+/* COMPONENT: c-logo */
+
+.c-logo {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: var(--global-whitespace-md);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+} 
+
+/* COMPONENT: c-app */
+
+
+.c-app {
+    --c-app-topbar-height: calc(var(--global-baseline) * 12);
+    min-height: 100vh;
+}
+
+.c-app__logo {
+    background-color: var(--color-neutral-xxx-dark);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--global-whitespace-lg);
+}
+
+.c-app__topbar {
+    background-color: var(--color-white);
+    box-shadow: var(--global-box-shadow);
+    z-index: 20;
+    display: none;
+}
+
+.c-app__sidebar {
+    background-color: var(--color-darkblue);
+    display: none;
+}
+
+.c-app__main {
+    background-color: var(--color-neutral-xxx-light);
+    color: var(--color-darkblue);
+}
+
+@media (min-width: 992px){
+    .c-app__topbar,
+    .c-app__sidebar {
+        display: block;
+    }
+
+    .c-app {
+        display: grid;
+        grid-template-columns: 17rem 1fr;
+        grid-template-rows: var(--c-app-topbar-height) 1fr;
+    }
+
+    /* Scroll behaviour */
+
+    /* 
+        First solution 
+        Only one scrollbar for the whole page
+    */
+
+    .c-app__topbar,
+    .c-app__logo {
+        position: sticky;
+        top: 0;
+    }
+
+    .c-app__sidebar {
+        position: sticky;
+        top: var(--c-app-topbar-height);
+        height: calc(100vh - var(--c-app-topbar-height));
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    /* 
+        Second solution: 
+        Main and sidebar scroll independantly from each other
+    */
+
+    /* .c-app__sidebar,
+    .c-app__main {
+        height: calc(100vh - var(--c-app-topbar-height));
+        overflow-y: auto;
+        overflow-x: hidden;
+    } */
+}
+
+
+
+/*  
+***********
+*** nav *** 
+***********
 */
+
+.c-main-nav {
+    
+}
+
+.c-main-nav__list {
+    margin-bottom: 0;
+}
+
+.c-main-nav__item {
+    margin: var(--global-baseline) 0;
+}
+
+.c-main-nav__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 1rem;
+    line-height: calc(var(--global-baseline)*4);
+    padding: var(--global-whitespace-sm) var(--global-whitespace-lg) var(--global-whitespace-sm) var(--global-whitespace-md);
+    border-left: 5px solid var(--color-purple);
+    margin-bottom: var(--global-baseline);
+    transform: translateX(-5px);
+    width: calc(100% + 5px);
+    transition: all var(--global-transition-beta);
+}
+
+.c-main-nav__link:hover {
+    transition: all var(--global-transition-alpha);
+}
+
+.c-main-nav__link,
+.c-main-nav__link:hover,
+.c-main-nav__link:visited {
+    color: #fff;
+}
+
+.c-main-nav__link:focus,
+.c-main-nav__link:hover,
+.is-selected .c-main-nav__link {
+    color: #fff;
+    background-color: var(--color-neutral-xxx-dark);
+    transform: none;
+}
+
+
+.c-main-nav__icon {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: var(--global-whitespace-xs);
+    fill: var(--color-neutral-dark);
+    transition: fill var(--global-transition-alpha);
+}
+
+.c-main-nav__link:hover .c-main-nav__icon,
+.c-main-nav__link:focus .c-main-nav__icon,
+.is-selected .c-main-nav__icon {
+    fill: var(--color-purple);
+}
+
 
 /*------------------------------------*\
 #UTILITIES
